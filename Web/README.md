@@ -1,7 +1,8 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Prerequisites
+-  Node v22 or higher
 
-## Getting Started
-Open the ToDo/Web folder with your IDE of choice.
+# Run instructions
+Navigate to the ~/Todo/Web folder
 
 Install npm packages:
 ```bash
