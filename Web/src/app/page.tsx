@@ -1,18 +1,26 @@
 "use client";
 import Image from "next/image";
 import ListContainer from "./components/ListContainer";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import TaskList from "./components/TaskList";
 import { TaskListDto } from "./utils/types";
 import { mockTaskList } from "./utils/mockData";
 import { Button, Form, FormControl } from "react-bootstrap";
 import { FaCheck } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
+import { useGetTaskListsQuery } from "./components/queries";
 
 export default function Home() {
   const [taskLists, setTaskLists] = useState<TaskListDto[]>(mockTaskList);
   const [isAddingTaskList, setIsEditingTaskList] = useState<boolean>(false);
   const [newTaskListName, setNewTaskListName] = useState<string>("");
+  const { isPending, error, data } = useGetTaskListsQuery();
+
+  useEffect(() => {
+    if(!isPending && !error){
+      setTaskLists(data ?? [])
+    }
+  }, [isPending])
 
   function createTaskList(event?: FormEvent<HTMLFormElement>) {
     event?.preventDefault();

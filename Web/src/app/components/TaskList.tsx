@@ -69,7 +69,7 @@ export default function TaskList({ taskList }: TaskListProps) {
     <div className="flex flex-col min-w-60 max-w-72">
       {getTaskListHeader()}
       {taskList.tasks.map((task) => (
-        <Task task={task}></Task>
+        <Task task={task} key={task.id.toString()}></Task>
       ))}
       {getNewTaskForm()}
 
