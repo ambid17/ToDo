@@ -4,6 +4,7 @@ import "./globals.css";
 import { Container, Nav, Navbar, NavbarBrand, NavbarCollapse, NavbarToggle } from "react-bootstrap";
 import Link from "next/link";
 import "bootstrap/dist/css/bootstrap.min.css";
+import 'react-loading-skeleton/dist/skeleton.css'
 import CustomTanstackProvider from "./utils/CustomTanstackProvider";
 
 const geistSans = Geist({

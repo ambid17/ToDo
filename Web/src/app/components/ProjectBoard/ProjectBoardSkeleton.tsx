@@ -5,6 +5,8 @@ export default function ProjectBoardSkeleton() {
   return (
     <ListContainer>
       <TaskListSkeleton />
+      <TaskListSkeleton />
+      <TaskListSkeleton />
     </ListContainer>
   );
 }
