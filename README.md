@@ -75,3 +75,12 @@ There are so many places to improve the application, so I will break this out in
 		- its at about the limit of readability, and I almost wanted to split them out to separate Task and TaskList controllers, but I wanted it to be simple to read through.
 - EFCore code first rules
 	- currently I didn't apply any entity ruels about minimum length of task names, etc.
+	
+	
+# Closing Thoughts
+This was a fun project that I found difficult to both get something working in a reasonable amount of time while trying to balance:
+- showing my architecture capabilities
+- keeping the code simple to not waste reviewer time
+- implementing industry best practices
+
+There are a million things I still wanted to do, but I had to finish up at some point :)
