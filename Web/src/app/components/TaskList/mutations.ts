@@ -1,5 +1,5 @@
 import { env } from "@/app/utils/env";
-import { TaskListDto } from "@/app/utils/types";
+import { TaskDto, TaskListDto } from "@/app/utils/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -22,11 +22,27 @@ export const useDeleteTaskListMutation = () => {
 export const useUpdateTaskListMutation = () => {
   const queryClient = useQueryClient();
   const updateTaskList = (taskList: TaskListDto) => {
-    return axios.put(`${env.apiUrl}/Task/TaskList`, taskList);
+    return axios.put(`${env.apiUrl}/Tasks/TaskList`, taskList);
   };
 
   const mutation = useMutation({
     mutationFn: (taskList: TaskListDto) => updateTaskList(taskList),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["taskLists"], refetchType: "all" });
+    },
+  });
+
+  return mutation;
+};
+
+export const useCreateTaskMutation = () => {
+  const queryClient = useQueryClient();
+  const createTask = (task: TaskDto) => {
+    return axios.post(`${env.apiUrl}/Tasks/Task`, task);
+  };
+
+  const mutation = useMutation({
+    mutationFn: (task: TaskDto) => createTask(task),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["taskLists"], refetchType: "all" });
     },

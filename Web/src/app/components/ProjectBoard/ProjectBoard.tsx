@@ -11,13 +11,11 @@ import { MdCancel } from "react-icons/md";
 import ProjectBoardSkeleton from "./ProjectBoardSkeleton";
 import { useGetProjectBoardQuery } from "./queries";
 import { useAddTaskListMutation } from "./mutations";
+import CreateTaskList from "./CreateTaskList";
 
 export default function ProjectBoard() {
   const [formTaskLists, setFormTaskLists] = useState<TaskListDto[]>([]);
-  const [isAddingTaskList, setIsEditingTaskList] = useState<boolean>(false);
-  const [newTaskListName, setNewTaskListName] = useState<string>("");
   const { isPending, error, data: serverTaskList } = useGetProjectBoardQuery();
-  const addTaskListMutation = useAddTaskListMutation();
 
   // Splitting out the reference to the server's taskLists and our local copy of them.
   // This enables features such as "discard changes" with minimal changes.
@@ -26,49 +24,7 @@ export default function ProjectBoard() {
       setFormTaskLists(serverTaskList ?? []);
     }
   }, [JSON.stringify(serverTaskList)]);
-
-  function createTaskList(event?: FormEvent<HTMLFormElement>) {
-    event?.preventDefault();
-    setIsEditingTaskList(false);
-
-    const newTaskList: TaskListDto = {
-        id: 0,
-        name: newTaskListName,
-    }
-    addTaskListMutation.mutate(newTaskList);
-  }
-
-  function getNewTaskContainer() {
-    if (!isAddingTaskList) {
-      return (
-        <Button onClick={() => setIsEditingTaskList(true)}>
-          + Add new List
-        </Button>
-      );
-    }
-
-    return (
-      <Form className="flex flex-row" onSubmit={(e) => createTaskList(e)}>
-        <FormControl
-          type="text"
-          value={newTaskListName}
-          onChange={(e) => setNewTaskListName(e.target.value)}
-        />
-        <Button onClick={(e) => createTaskList()} className="m-1">
-          <FaCheck />
-        </Button>
-        <Button
-          onClick={() => {
-            setNewTaskListName("");
-            setIsEditingTaskList(false);
-          }}
-          className="m-1"
-        >
-          <MdCancel />
-        </Button>
-      </Form>
-    );
-  }
+  
 
   if(isPending){
     return (<ProjectBoardSkeleton/>)
@@ -84,7 +40,7 @@ export default function ProjectBoard() {
       {formTaskLists?.map((taskList) => (
         <TaskList key={taskList.id.toString()} taskList={taskList} />
       ))}
-      {getNewTaskContainer()}
+      <CreateTaskList/>
     </ListContainer>
   );
 }

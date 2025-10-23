@@ -8,13 +8,13 @@ namespace ToDo.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TaskController : ControllerBase
+    public class TasksController : ControllerBase
     {
 
-        private readonly ILogger<TaskController> _logger;
+        private readonly ILogger<TasksController> _logger;
         private readonly ToDoContext _toDoContext;
 
-        public TaskController(ILogger<TaskController> logger, ToDoContext toDoContext)
+        public TasksController(ILogger<TasksController> logger, ToDoContext toDoContext)
         {
             _logger = logger;
             _toDoContext = toDoContext;
@@ -71,6 +71,22 @@ namespace ToDo.Controllers
                 return NotFound();
             }
             existingTaskList.Name = taskList.Name;
+            await _toDoContext.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpPut]
+        [Route("Task")]
+        public async Task<IActionResult> UpdateTask([FromBody] Entities.Task task)
+        {
+            var existingTask = await _toDoContext.Tasks.FirstOrDefaultAsync(t => t.Id == task.Id);
+            if (existingTask == null)
+            {
+                return NotFound();
+            }
+            existingTask.TaskName = task.TaskName;
+            existingTask.DueDate = task.DueDate;
+            existingTask.IsCompleted = task.IsCompleted;
             await _toDoContext.SaveChangesAsync();
             return NoContent();
         }

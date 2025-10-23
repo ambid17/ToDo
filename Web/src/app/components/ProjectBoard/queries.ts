@@ -6,7 +6,7 @@ import axios from "axios";
 export const useGetProjectBoardQuery = () => {
   const fetchItem = (): Promise<TaskListDto[]> =>
     axios
-      .get(`${env.apiUrl}/Task/TaskLists`)
+      .get(`${env.apiUrl}/Tasks/TaskLists`)
       .then((response) => response.data);
 
   const { isPending, error, data } = useQuery({
