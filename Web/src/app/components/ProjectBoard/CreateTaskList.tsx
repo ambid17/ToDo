@@ -10,7 +10,6 @@ export default function CreateTaskList() {
   const [newTaskListName, setNewTaskListName] = useState<string>("");
   const addTaskListMutation = useAddTaskListMutation();
 
-
   function createTaskList(event?: FormEvent<HTMLFormElement>) {
     event?.preventDefault();
     setIsAddingTaskList(false);
@@ -25,7 +24,12 @@ export default function CreateTaskList() {
 
   if (!isAddingTaskList) {
     return (
-      <Button onClick={() => setIsAddingTaskList(true)} className="whitespace-nowrap">+ Add new List</Button>
+      <Button
+        onClick={() => setIsAddingTaskList(true)}
+        className="whitespace-nowrap"
+      >
+        + Add new List
+      </Button>
     );
   }
 

@@ -6,7 +6,7 @@ import axios from "axios";
 export const useDeleteTaskListMutation = () => {
   const queryClient = useQueryClient();
   const addTaskList = (taskListId: number) => {
-    return axios.delete(`${env.apiUrl}/Task/TaskList/${taskListId}`);
+    return axios.delete(`${env.apiUrl}/Tasks/TaskList/${taskListId}`);
   };
 
   const mutation = useMutation({

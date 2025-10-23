@@ -49,7 +49,7 @@ export default function TaskList({taskList}: TaskListHeaderProps) {
 
   if (isEditingTaskList) {
     return (
-      <Form className="w-full flex flex-row justify-around  p-2" onSubmit={(e) => saveTaskListName(e)}>
+      <Form className="w-full flex flex-row justify-around px-1 py-2 gap-2" onSubmit={(e) => saveTaskListName(e)}>
         <FormControl
           type="text"
           value={taskListName}
@@ -64,8 +64,8 @@ export default function TaskList({taskList}: TaskListHeaderProps) {
   }
 
   return (
-    <div className="flex flex-row justify-between my-2">
-      <FormLabel>{taskListName}</FormLabel>
+    <div className="flex flex-row justify-between my-2 items-center">
+      <p className="m-0">{taskListName}</p>
       <Dropdown>
         <DropdownToggle />
         <DropdownMenu>

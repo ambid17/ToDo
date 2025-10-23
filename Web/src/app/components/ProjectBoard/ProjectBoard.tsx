@@ -1,17 +1,12 @@
 "use client";
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import ListContainer from "../../components/ListContainer";
-import { FormEvent, useEffect, useState } from "react";
 import TaskList from "../../components/TaskList/TaskList";
-import { TaskListDto } from "../../utils/types";
 import { mockTaskList } from "../../utils/mockData";
-import { Button, Form, FormControl } from "react-bootstrap";
-import { FaCheck } from "react-icons/fa";
-import { MdCancel } from "react-icons/md";
+import { TaskListDto } from "../../utils/types";
+import CreateTaskList from "./CreateTaskList";
 import ProjectBoardSkeleton from "./ProjectBoardSkeleton";
 import { useGetProjectBoardQuery } from "./queries";
-import { useAddTaskListMutation } from "./mutations";
-import CreateTaskList from "./CreateTaskList";
 
 export default function ProjectBoard() {
   const [formTaskLists, setFormTaskLists] = useState<TaskListDto[]>([]);
@@ -24,14 +19,13 @@ export default function ProjectBoard() {
       setFormTaskLists(serverTaskList ?? []);
     }
   }, [JSON.stringify(serverTaskList)]);
-  
 
-  if(isPending){
-    return (<ProjectBoardSkeleton/>)
+  if (isPending) {
+    return <ProjectBoardSkeleton />;
   }
 
   // If the API isn't started or available, give a mock dataset to prove the UI functionality with.
-  if(error){
+  if (error) {
     setFormTaskLists(mockTaskList);
   }
 
@@ -40,7 +34,7 @@ export default function ProjectBoard() {
       {formTaskLists?.map((taskList) => (
         <TaskList key={taskList.id.toString()} taskList={taskList} />
       ))}
-      <CreateTaskList/>
+      <CreateTaskList />
     </ListContainer>
   );
 }
