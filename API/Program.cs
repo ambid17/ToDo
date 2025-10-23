@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using ToDo.DbContexts;
+
 namespace ToDo
 {
     public class Program
@@ -7,10 +10,11 @@ namespace ToDo
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
+            builder.Services.AddDbContext<ToDoContext>(option =>
+            {
+                option.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -24,10 +28,7 @@ namespace ToDo
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             app.Run();

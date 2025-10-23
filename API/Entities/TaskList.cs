@@ -1,0 +1,9 @@
+﻿namespace ToDo.Entities
+{
+    public class TaskList
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public ICollection<Task>? Tasks { get; set; }
+    }
+}
