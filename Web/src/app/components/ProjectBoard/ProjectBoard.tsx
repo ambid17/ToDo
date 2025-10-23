@@ -13,17 +13,19 @@ import { useGetProjectBoardQuery } from "./queries";
 import { useAddTaskListMutation } from "./mutations";
 
 export default function ProjectBoard() {
-  const [taskLists, setTaskLists] = useState<TaskListDto[]>([]);
+  const [formTaskLists, setFormTaskLists] = useState<TaskListDto[]>([]);
   const [isAddingTaskList, setIsEditingTaskList] = useState<boolean>(false);
   const [newTaskListName, setNewTaskListName] = useState<string>("");
-  const { isPending, error, data } = useGetProjectBoardQuery();
+  const { isPending, error, data: serverTaskList } = useGetProjectBoardQuery();
   const addTaskListMutation = useAddTaskListMutation();
 
+  // Splitting out the reference to the server's taskLists and our local copy of them.
+  // This enables features such as "discard changes" with minimal changes.
   useEffect(() => {
     if (!isPending && !error) {
-      setTaskLists(data ?? []);
+      setFormTaskLists(serverTaskList ?? []);
     }
-  }, [isPending]);
+  }, [JSON.stringify(serverTaskList)]);
 
   function createTaskList(event?: FormEvent<HTMLFormElement>) {
     event?.preventDefault();
@@ -74,12 +76,12 @@ export default function ProjectBoard() {
 
   // If the API isn't started or available, give a mock dataset to prove the UI functionality with.
   if(error){
-    setTaskLists(mockTaskList);
+    setFormTaskLists(mockTaskList);
   }
 
   return (
     <ListContainer>
-      {taskLists?.map((taskList) => (
+      {formTaskLists?.map((taskList) => (
         <TaskList key={taskList.id.toString()} taskList={taskList} />
       ))}
       {getNewTaskContainer()}

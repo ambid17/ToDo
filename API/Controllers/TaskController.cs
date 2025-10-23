@@ -48,7 +48,7 @@ namespace ToDo.Controllers
         }
 
         [HttpDelete]
-        [Route("TaskList/{id}")]
+        [Route("TaskList/{taskListId}")]
         public async Task<IActionResult> DeleteTaskList(int taskListId)
         {
             var taskList = await _toDoContext.TaskLists.FirstOrDefaultAsync(taskList => taskList.Id == taskListId);
@@ -57,6 +57,20 @@ namespace ToDo.Controllers
                 return NotFound();
             }
             _toDoContext.TaskLists.Remove(taskList);
+            await _toDoContext.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpPut]
+        [Route("TaskList")]
+        public async Task<IActionResult> UpdateTaskList([FromBody] TaskList taskList)
+        {
+            var existingTaskList = await _toDoContext.TaskLists.FirstOrDefaultAsync(tl => tl.Id == taskList.Id);
+            if (existingTaskList == null)
+            {
+                return NotFound();
+            }
+            existingTaskList.Name = taskList.Name;
             await _toDoContext.SaveChangesAsync();
             return NoContent();
         }
