@@ -3,7 +3,10 @@ To Do : a small task management app utilizing:
 - front end: React and NextJS
 - back end: Asp.Net Core and Entity Framework Core
 
-# Though Process
+# Setup
+- to set up and run each of the components (API/Web) the projects include their own readme files
+
+# Thought Process
 - The prompt is incredibly vague: To Do's and Task Management imply vastly different outcomes.
 	- To Do: what comes to mind is the iOS reminders app. You need lists of reminders with due dates, and the ability to order them
 	- Task Management: what comes to mind is something like Jira or Trello. It is largely the same dataset as To Do's with a UI layer on top.
@@ -23,7 +26,7 @@ To Do : a small task management app utilizing:
 	- In my experience, the purpose of an MVP is to get to market as fast as humanly possible, and get customer feedback.
 		
 # Assumptions
-- To keep it simple, let's assume the stakeholders need something along the lines of the iOS reminders app, but with integrations for internal datasets.
+- To keep it fun, let's assume the stakeholders need something in between the iOS reminders app and Trello, but with integrations for internal datasets.
 	- reasoning: this lets us tackle the internal customer route. If I wanted to target the external customer, I would spend more time thinking of a novel UX and that's not the purpose of this exercise.
 - The goal is to keep time-to-market while not entirely sacrificing maintainability
 	- reasoning: if I made an MVP that was awful to add on to, it might as well be re-worked from the ground up. On the other hand, if I spend the time to make the application work for every case, it can be impossible to move forward with any speed.
@@ -35,10 +38,40 @@ To Do : a small task management app utilizing:
 ## Database
 - SQLite vs EF-in-memory database
 	- I chose SQLite's in-memory database as it's also perfect to be re-used if we wanted to set up unit tests isolated from the prod database.
+	- This also lets me commit some saved info to see how the application looks with dummy data right as you load up.
 ## Front end
 - Libraries:
 	- Tanstack Query and Axios - chosen to keep things simple for API interactions
 		- the project isn't large or complex enough to warrant the additional complexity of something like Redux.
 	- React Bootstrap - Again, very straightforward and lightweight. Lets front end developers override components with ease.
-# Setup
-- to set up and run each of the components (API/Web) the projects include their own readme files
+
+
+# Further improvements
+## Scalability
+There are so many places to improve the application, so I will break this out into front end vs backend
+
+### Front end
+- implement virtualized data. Only show Tasks that are visible, and lazy load them as they become visible
+- instead of loading ALL of the task lists up front, we could either paginate, or only load the non-completed tasks until the user needs that information
+
+
+### Back end
+- Implementing WebSockets to stream the small set of changes and prevent an entire data refresh would be the biggest bang for your buck.
+- I can imagine a world where if this was an external tool and we had some large customers, it would make sense to split databases per large partner
+- If there are time frames where we are receiving bursty traffic, a load balancer and message queue would absorb a lot of that pressure
+- We could make some calculated tables using triggers to have, for example, a "non-completed task" query super optimized
+
+## Maintainability
+
+### Front end
+- Testing
+	- There's already a massive miss in unit tests that would've made even this small PoC go smoother
+- Storybooks
+	- Create a pre-made UI library with company branded assets and uniform components
+
+### Back end
+- Code splitting
+	- Since the current set of requests was small enough, it felt unnecessary to split them out into separate controllers
+		- its at about the limit of readability, and I almost wanted to split them out to separate Task and TaskList controllers, but I wanted it to be simple to read through.
+- EFCore code first rules
+	- currently I didn't apply any entity ruels about minimum length of task names, etc.
