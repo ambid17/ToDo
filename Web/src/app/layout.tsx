@@ -3,8 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Container, Nav, Navbar, NavbarBrand, NavbarCollapse, NavbarToggle } from "react-bootstrap";
 import Link from "next/link";
-import CustomTanstackProvider from "./components/CustomTanstackProvider";
 import "bootstrap/dist/css/bootstrap.min.css";
+import CustomTanstackProvider from "./utils/CustomTanstackProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

@@ -46,5 +46,19 @@ namespace ToDo.Controllers
             await _toDoContext.SaveChangesAsync();
             return CreatedAtAction(nameof(GetTaskLists), new { id = task.Id }, task);
         }
+
+        [HttpDelete]
+        [Route("TaskList/{id}")]
+        public async Task<IActionResult> DeleteTaskList(int taskListId)
+        {
+            var taskList = await _toDoContext.TaskLists.FirstOrDefaultAsync(taskList => taskList.Id == taskListId);
+            if (taskList == null)
+            {
+                return NotFound();
+            }
+            _toDoContext.TaskLists.Remove(taskList);
+            await _toDoContext.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }

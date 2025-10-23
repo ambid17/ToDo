@@ -3,7 +3,7 @@ import { TaskDto, TaskListDto } from "./types";
 export const mockTaskList: TaskListDto[] = [
   {
     id: 1,
-    listName: "Chores",
+    name: "Chores",
     tasks: [
       {
         id: 1,
@@ -21,7 +21,7 @@ export const mockTaskList: TaskListDto[] = [
   },
   {
     id: 2,
-    listName: "Finances",
+    name: "Finances",
     tasks: [
       {
         id: 3,

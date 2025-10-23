@@ -1,7 +1,7 @@
 export type TaskListDto = {
   id: number;
-  tasks : TaskDto[];
-  listName: string;
+  tasks? : TaskDto[];
+  name: string;
 }
 
 export type TaskDto = {
@@ -9,4 +9,5 @@ export type TaskDto = {
   taskListId: number;
   taskName: string;
   dueDate?: Date;
+  isCompleted: boolean;
 }

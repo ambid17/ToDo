@@ -1,9 +1,9 @@
+import { env } from "@/app/utils/env";
+import { TaskListDto } from "@/app/utils/types";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { TaskListDto } from "../utils/types";
-import { env } from "../utils/env";
 
-export const useGetTaskListsQuery = () => {
+export const useGetProjectBoardQuery = () => {
   const fetchItem = (): Promise<TaskListDto[]> =>
     axios
       .get(`${env.apiUrl}/Task/TaskLists`)
